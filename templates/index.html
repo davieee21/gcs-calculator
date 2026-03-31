@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GCS Score Calculator</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+
+<!-- STICKY HEADER -->
+<div class="sticky top-0 z-50 bg-white dark:bg-gray-800 shadow-md">
+    <div class="max-w-4xl mx-auto p-4 flex items-center justify-center">
+        <h1 class="text-xl font-bold text-gray-800 dark:text-white">
+            🧠 GCS Score Calculator
+        </h1>
+    </div>
+</div>
+
+<div class="max-w-2xl mx-auto p-4 space-y-6">
+
+    <!-- HEADER CARD 1 -->
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 text-center">
+    <p class="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+        The Glasgow Coma Scale (GCS) is a clinical tool used to assess consciousness in patients with head injury,
+        ICU conditions, or in emergency settings. It helps guide urgent clinical decision-making and monitor neurological status.
+    </p>
+</div>
+
+<!-- HEADER CARD 2 -->
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 text-center">
+    <p class="text-gray-600 dark:text-gray-300 text-sm md:text-base leading-relaxed">
+        This calculator helps estimate the GCS score and provides guidance on what the result may mean. 
+        Of great importance, the trend matters more than a single score. A declining score indicates worsening neurological status and requires urgent medical attention.
+    </p>
+</div>
+
+    <!-- FORM CARD -->
+    <div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 space-y-5">
+
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
+            Patient Assessment
+        </h2>
+
+        {% if error %}
+        <div class="bg-red-100 text-red-700 p-3 rounded-lg text-sm">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form method="POST" class="space-y-5">
+
+<!-- PATIENT ASSESSMENT HEADER -->
+<div class="flex items-center justify-between mb-2">
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
+        Patient Assessment
+    </h2>
+
+    <span class="text-xs text-gray-500 dark:text-gray-400">
+        Hover over options to learn more
+    </span>
+</div>
+
+<!-- EYE -->
+<div>
+    <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+        👁 Eye Opening (E)
+    </label>
+    <select name="eye"
+        class="mt-1 w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-400"
+        required>
+        <option value="">Select</option>
+        <option title="Opens eyes without stimulation, indicates normal arousal" value="4">
+            4 - Spontaneous
+        </option>
+        <option title="Opens eyes when spoken to, suggests reduced alertness" value="3">
+            3 - To speech
+        </option>
+        <option title="Opens eyes only after painful stimulus, indicates impaired consciousness" value="2">
+            2 - To pain
+        </option>
+        <option title="No eye opening, suggests deep unconsciousness" value="1">
+            1 - None
+        </option>
+    </select>
+</div>
+
+<!-- VERBAL -->
+<div>
+    <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+        💬 Verbal Response (V)
+    </label>
+    <select name="verbal"
+        class="mt-1 w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-400"
+        required>
+        <option value="">Select</option>
+        <option title="Aware of self, time, and place; normal communication" value="5">
+            5 - Oriented
+        </option>
+        <option title="Disoriented but able to speak, indicates mild cognitive impairment" value="4">
+            4 - Confused
+        </option>
+        <option title="Random or inappropriate speech, suggests significant brain dysfunction" value="3">
+            3 - Inappropriate words
+        </option>
+        <option title="Moaning or unclear sounds, no meaningful speech" value="2">
+            2 - Incomprehensible sounds
+        </option>
+        <option title="No verbal response, indicates severe impairment or coma" value="1">
+            1 - None
+        </option>
+    </select>
+</div>
+
+<!-- MOTOR -->
+<div>
+    <label class="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+        🦵 Motor Response (M)
+    </label>
+    <select name="motor"
+        class="mt-1 w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-400"
+        required>
+        <option value="">Select</option>
+        <option title="Follows simple instructions, indicates intact motor function" value="6">
+            6 - Obeys commands
+        </option>
+        <option title="Moves toward pain, showing awareness" value="5">
+            5 - Localizes pain
+        </option>
+        <option title="Pulls away from pain, reflexive but purposeful" value="4">
+            4 - Withdraws from pain
+        </option>
+        <option title="Bends inward abnormally, usually due to serious brain damage" value="3">
+            3 - Abnormal flexion
+        </option>
+        <option title="Becomes stiff and straight, often a sign of severe brain injury" value="2">
+            2 - Extension
+        </option>
+        <option title="No motor response, indicates profound neurological impairment" value="1">
+            1 - None
+        </option>
+    </select>
+</div>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300">
+                Calculate GCS Score
+            </button>
+        </form>
+    </div>
+
+    <!-- RESULT -->
+{% if result %}
+<div class="bg-white dark:bg-gray-800 shadow-md rounded-2xl p-6 space-y-4 animate-fadeIn">
+
+    <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
+        Assessment Result
+    </h2>
+
+    <!-- SCORE DISPLAY -->
+    <div class="text-center p-4 rounded-lg
+        {% if result.score <= 8 %}
+            bg-red-100 text-red-800
+        {% elif result.score <= 12 %}
+            bg-yellow-100 text-yellow-800
+        {% else %}
+            bg-green-100 text-green-800
+        {% endif %}
+    ">
+        <p class="text-2xl font-bold">GCS: {{ result.score }}</p>
+        <p class="text-sm">{{ result.breakdown }}</p>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div>
+        <div class="w-full bg-gray-200 rounded-full h-3 dark:bg-gray-700">
+            <div class="h-3 rounded-full
+                {% if result.score <= 8 %}
+                    bg-red-500
+                {% elif result.score <= 12 %}
+                    bg-yellow-500
+                {% else %}
+                    bg-green-500
+                {% endif %}
+            "
+            style="width: {{ (result.score / 15) * 100 }}%">
+            </div>
+        </div>
+    </div>
+
+    <!-- CATEGORY -->
+    <div>
+        <p class="font-semibold text-gray-700 dark:text-gray-200">Category:</p>
+        <p class="text-gray-600 dark:text-gray-300">{{ result.category }}</p>
+    </div>
+
+    <!-- INTERPRETATION -->
+    <div>
+        <p class="font-semibold text-gray-700 dark:text-gray-200">
+            Clinical Interpretation:
+        </p>
+        <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            {{ result.suggestion }}
+        </p>
+    </div>
+
+    <!-- NORMAL RANGE -->
+    <div class="border-t pt-4 text-sm text-gray-600 dark:text-gray-300">
+        <p><strong>Reference:</strong></p>
+        <p>13–15 → Mild</p>
+        <p>9–12 → Moderate</p>
+        <p>≤ 8 → Severe (consider airway protection)</p>
+    </div>
+
+    <!-- RESTART -->
+    <form method="GET">
+        <button class="w-full bg-gray-700 text-white py-3 rounded-lg hover:bg-gray-800 transition">
+            Restart
+        </button>
+    </form>
+
+</div>
+{% endif %}
+
+<!-- DISCLAIMER (ALWAYS VISIBLE) -->
+<div class="mt-6 text-xs text-gray-500 dark:text-gray-400 border-t pt-3">
+    ⚠️ This tool is for educational purposes only. Always correlate clinically.
+</div>
+
+<!-- CREDITS -->
+<div class="mt-4 text-center text-xs text-gray-500 dark:text-gray-400 border-t pt-3">
+    <p>
+        © {{ current_year }} Davis Ongeri. All rights reserved.
+    </p>
+    <p class="mt-1">
+        Developed by Davis Ongeri | GCS Calculator Tool
+    </p>
+</div>
+
+<!-- SIMPLE FADE ANIMATION -->
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-in-out;
+}
+</style>
+
+</body>
+</html>
